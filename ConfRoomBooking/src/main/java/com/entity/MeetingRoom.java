@@ -12,7 +12,7 @@ public class MeetingRoom {
 
 	private Date to;
 
-	private String bookingStatus;
+	private String bookedBy;
 
 	public MeetingRoom(int roomNum, String roomName, Date from, Date to,
 			String bookingStatus) {
@@ -20,27 +20,12 @@ public class MeetingRoom {
 		this.roomName = roomName;
 		this.from = from;
 		this.to = to;
-		this.bookingStatus = bookingStatus;
+		this.bookedBy = bookingStatus;
 	}
 
 	public MeetingRoom() {
 	}
 
-	public int getId() {
-		return roomNum;
-	}
-
-	public void setId(int id) {
-		this.roomNum = id;
-	}
-
-	public String getName() {
-		return roomName;
-	}
-
-	public void setName(String name) {
-		this.roomName = name;
-	}
 
 	public int getRoomNum() {
 		return roomNum;
@@ -74,12 +59,12 @@ public class MeetingRoom {
 		this.to = to;
 	}
 
-	public String getBookingStatus() {
-		return bookingStatus;
+	public String getBookedBy() {
+		return bookedBy;
 	}
 
-	public void setBookingStatus(String bookingStatus) {
-		this.bookingStatus = bookingStatus;
+	public void setBookedBy(String bookingStatus) {
+		this.bookedBy = bookingStatus;
 	}
 
 }

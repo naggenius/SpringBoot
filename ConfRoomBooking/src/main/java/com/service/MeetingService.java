@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +15,19 @@ public class MeetingService {
 	@Autowired
 	private MeetingDao meetingDao;
 	
-	public Collection<MeetingRoom> getAllrooms(){
+	public Collection<MeetingRoom> getAllrooms() throws SQLException{
 		return meetingDao.getAllrooms();
 	}
 
-	public MeetingRoom getRoomByNameId(int id) {
+	public MeetingRoom getRoomByNameId(int id) throws SQLException {
 		return this.meetingDao.getRoomByNameId(id);
 	}
 
 
 	
-	public void bookRoomByNameId(MeetingRoom meeting) {
-		this.meetingDao.bookRoomByNameId(meeting);
+	public MeetingRoom bookRoomByNameId(MeetingRoom meeting) {
+		MeetingRoom room = this.meetingDao.bookRoomByNameId(meeting);
+		return room;
 	}
 
 

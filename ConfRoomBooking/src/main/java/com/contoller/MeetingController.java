@@ -1,5 +1,6 @@
 package com.contoller;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,20 @@ public class MeetingController {
 	private MeetingService meetingService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	private Collection<MeetingRoom> getAllrooms(){
+	private Collection<MeetingRoom> getAllrooms() throws SQLException{
 		return meetingService.getAllrooms();
 	}
 	
 	@RequestMapping(value = "/{roomNum}", method = RequestMethod.GET)
-	public MeetingRoom getRoomByNameId(@PathVariable("roomNum") int roomNum) {
+	public MeetingRoom getRoomByNameId(@PathVariable("roomNum") int roomNum) throws SQLException {
 		return meetingService.getRoomByNameId(roomNum);
 	}
 	
 	
 	@RequestMapping(method = RequestMethod.PUT, consumes= MediaType.APPLICATION_JSON_VALUE)
-	public void bookRoomByNameId(@RequestBody MeetingRoom s) {
-		meetingService.bookRoomByNameId(s);
+	public MeetingRoom bookRoomByNameId(@RequestBody MeetingRoom s) {
+		MeetingRoom room = meetingService.bookRoomByNameId(s);
+		return room;
 	}
 
 }
