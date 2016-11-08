@@ -28,40 +28,33 @@ public class MeetingDaoImpl implements MeetingDao {
 	public Collection<MeetingRoom> getAllrooms() throws SQLException {
 		// System.out.println("Query employees: platform->" + platform);
 		Collection<MeetingRoom> roomlist = new ArrayList<>();
-		List<Map<String, Object>> list = jdbcTemplate
-				.queryForList("select * from ROOM_INFO");
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from ROOM_INFO");
 		return mapRow(list, roomlist);
 	}
 
 	public MeetingRoom getRoomByNameId(int id) throws SQLException {
 		Collection<MeetingRoom> roomlist = new ArrayList<>();
 
-		List<Map<String, Object>> list = jdbcTemplate.queryForList(
-				"select * from ROOM_INFO where ROOM_NO = ?", id);
+		List<Map<String, Object>> list = jdbcTemplate.queryForList("select * from ROOM_INFO where ROOM_NO = ?", id);
 
 		return mapRow(list, roomlist).iterator().next();
 	}
 
 	public MeetingRoom bookRoomByNameId(MeetingRoom room) {
 
-		Integer cnt = jdbcTemplate
-				.queryForObject(
-						"SELECT count(*) FROM ROMM_INFO WHERE ROOM_NO  = ? AND BOOKED_BY = 'N/A')",
-						Integer.class, room.getRoomNum());
+		Integer cnt = jdbcTemplate.queryForObject(
+				"SELECT count(*) FROM ROMM_INFO WHERE ROOM_NO  = ? AND BOOKED_BY = 'N/A')", Integer.class,
+				room.getRoomNum());
 		if (cnt != null && cnt > 0) {
-			int row = jdbcTemplate
-					.update("update ROMM_INFO set START_TIME = ?, END_TIME = ?, BOOKED_BY  = ? where ROOM_NO = ? and BOOKED_BY = 'N/A'",
-							room.getFrom(), room.getTo(), room.getBookedBy(),
-							room.getRoomNum());
+			int row = jdbcTemplate.update(
+					"update ROMM_INFO set START_TIME = ?, END_TIME = ?, BOOKED_BY  = ? where ROOM_NO = ? and BOOKED_BY = 'N/A'",
+					room.getFrom(), room.getTo(), room.getBookedBy(), room.getRoomNum());
 			System.out.println(row + " rows updated.");
 
 		} else {
-			Object[] params = new Object[] { room.getRoomNum(),
-					room.getRoomName(), room.getFrom(), room.getTo(),
+			Object[] params = new Object[] { room.getRoomNum(), room.getRoomName(), room.getFrom(), room.getTo(),
 					room.getBookedBy() };
-			int[] types = new int[] { Types.VARCHAR, Types.VARCHAR,
-					Types.VARCHAR, Types.TIMESTAMP, Types.TIMESTAMP,
-					Types.VARCHAR };
+			int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.TIMESTAMP, Types.TIMESTAMP, Types.VARCHAR };
 			int row = jdbcTemplate.update(insertSql, params, types);
 			System.out.println(row + " rows inserted.");
 		}
@@ -69,8 +62,8 @@ public class MeetingDaoImpl implements MeetingDao {
 
 	}
 
-	public Collection<MeetingRoom> mapRow(List<Map<String, Object>> list,
-			Collection<MeetingRoom> roomlist) throws SQLException {
+	public Collection<MeetingRoom> mapRow(List<Map<String, Object>> list, Collection<MeetingRoom> roomlist)
+			throws SQLException {
 		for (Map<String, Object> row : list) {
 			MeetingRoom room = new MeetingRoom();
 			room.setRoomNum(Integer.valueOf(row.get("ROOM_NO").toString()));
