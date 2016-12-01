@@ -59,7 +59,7 @@ Request Payload
 `{
 "name": "Treadmill",
 "type": "Sports",
-"Price":75645.52
+"price":75645.52
 }`
 
 Response 

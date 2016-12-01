@@ -28,10 +28,10 @@
 	
 	
 
-	<properties>
-		<!-- Stand-alone RESTFul application for testing only -->
+	<!-- <properties>
+		Stand-alone RESTFul application for testing only
 		<start-class>com.test.microservices.services.Main</start-class>
-	</properties>
+	</properties> -->
 
 	<dependencies>
 		<dependency>

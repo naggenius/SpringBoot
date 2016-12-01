@@ -15,48 +15,50 @@ import com.test.microservices.exceptions.RecordNotFoundException;
 @RestController
 public class ProductsController {
 
-	protected Logger logger = Logger.getLogger(ProductsController.class
-			.getName());
+	protected Logger logger = Logger.getLogger(ProductsController.class.getName());
 	protected ProductsRepository productRepository;
 
 	@Autowired
 	public ProductsController(ProductsRepository productRepository) {
 		this.productRepository = productRepository;
 
-		logger.info("ProductRepository says system has "
-				+ productRepository.countProducts() + " products");
+		logger.info("ProductRepository says system has " + productRepository.countProducts() + " products");
 	}
 
 	@RequestMapping("/products/{productType}")
-	public Product byType(@PathVariable("productType") String productType) {
+	public List<Product> byType(@PathVariable("productType") String productType) {
 
 		logger.info("products-service byType() invoked: " + productType);
-		//Product product = productRepository.findByType(productType);
-		Product product = productRepository.findByType(productType);
+		// Product product = productRepository.findByType(productType);
+		List<Product> product = productRepository.findByType(productType);
 		logger.info("products-service byType() found: " + product);
 
-		if (product == null)
+		if (product.isEmpty())
 			throw new RecordNotFoundException(productType);
 		else {
 			return product;
 		}
 	}
-	
-	@RequestMapping(value="/products/create", method = RequestMethod.POST)
+
+	@RequestMapping("/products")
+	public List<Product> allProducts() {
+		logger.info("products-service allProducts() invoked: ");
+		return productRepository.findAll();
+	}
+
+	@RequestMapping(value = "/products/create", method = RequestMethod.POST)
 	public List<Product> createProduct(@RequestBody Product products) {
 		logger.info("products-service createProduct() invoked: " + products);
-		productRepository.save(new Product(products.getName(), 
-				products.getType(), products.getPrice()));
+		productRepository.save(new Product(products.getName(), products.getType(), products.getPrice()));
 		return productRepository.findAll();
-		
+
 	}
-	
-	//search product for price
+
+	// search product for price
 	@RequestMapping("/products/price/{productName}")
 	public List<Product> findPriceByName(@PathVariable("productName") String productName) {
 
 		logger.info("products-service findPriceByName() invoked: " + productName);
-		//Product product = productRepository.findByType(productType);
 		List<Product> product = productRepository.findPriceByName(productName);
 		logger.info("products-service findPriceByName() found: " + product);
 
@@ -66,15 +68,12 @@ public class ProductsController {
 			return product;
 		}
 	}
-	
-	@RequestMapping(value="/products/delete/{productId}", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/products/delete/{productId}", method = RequestMethod.GET)
 	public List<Product> deleteProduct(@PathVariable("productId") Long productId) {
 		logger.info("products-service deleteProduct() invoked: " + productId);
 		productRepository.delete(productId);
-		return productRepository.findAll();	 
-		 }
-	
+		return productRepository.findAll();
 	}
 
-	
-
+}

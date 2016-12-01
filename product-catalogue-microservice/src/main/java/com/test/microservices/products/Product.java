@@ -25,6 +25,7 @@ public class Product implements Serializable {
 	@Column(name = "type")
 	protected String type;
 	
+	@Column(name = "price")
 	protected BigDecimal price;
 
 	protected static Long getNextId() {
