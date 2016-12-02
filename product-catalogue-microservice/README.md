@@ -4,21 +4,20 @@ Build the application
 
 Apache Maven 3.0.2 
 
-Java version: 1.8.0_101
+Java version: 1.8
 
-##Build App -
+##Build App - [Java/Maven - Create a Runnable jar out of Project]
 
-mvn clean install -X - in debug mode
 
 ##To start the application
 
 To start the application we need to run to services
 
 For the enabling the default eureka server 
-`java -jar target/product-catalogue-microservice-1.1.0.RELEASE.jar registration` - after this command wait for the server to up completely
+`java -jar product-catalogue-microservice.jar registration` - after this command wait for the server to up completely
 
 Then running the products service
-`java -jar target/product-catalogue-microservice-1.1.0.RELEASE.jar products`- after this command wait for the server to up completely
+`java -jar target/product-catalogue-microservice.jar products`- after this command wait for the server to up completely
 
 ##search product by type
 
